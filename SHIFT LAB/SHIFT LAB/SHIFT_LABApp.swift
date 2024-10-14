@@ -11,7 +11,9 @@ import SwiftUI
 struct SHIFT_LABApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView{
+                RegistrationView()
+            }
         }
     }
 }
