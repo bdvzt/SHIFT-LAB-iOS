@@ -8,27 +8,50 @@
 import SwiftUI
 
 struct MainView: View {
-//    @StateObject var userSession = UserSession()
-//    @EnvironmentObject var currUser: UserModel
     @StateObject var userViewModel = UserViewModel()
+    @State private var showModal = false
+    
     var body: some View {
         VStack {
-            Button(action: greetings){
-                Text("Push on me")
+            Button(action: {
+                showModal.toggle()
+            }) {
+                Text("Приветствие")
                     .foregroundColor(.white)
-                    .font(.headline)
-                    .frame(height: 70)
-                    .frame(width: 200)
-                    .background(Color.pink)
-                    .cornerRadius(15)
+                    .padding()
+                    .background(Color.blue)
+                    .cornerRadius(10)
             }
         }
-    }
-    
-    func greetings(){
-        
+        .padding()
+        .sheet(isPresented: $showModal) {
+            WelcomeModal(userViewModel: userViewModel)
+        }
+        .onAppear {
+        }
     }
 }
+
+struct WelcomeModal: View {
+    @ObservedObject var userViewModel: UserViewModel
+    var name: String? {
+        userViewModel.showName()
+    }
+
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Приветствие")
+                .font(.title)
+                .bold()
+            
+            Text("Добро пожаловать, \(String(describing: name))!")
+                .font(.headline)
+        }
+        .padding()
+    }
+}
+
 
 #Preview {
     MainView()

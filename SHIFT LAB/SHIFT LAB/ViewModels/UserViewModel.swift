@@ -19,7 +19,11 @@ class UserViewModel: ObservableObject {
     currentUser = newUser
     saveUser(user: newUser)
   }
-
+    
+    func showName() -> String? {
+        return currentUser?.name
+    }
+    
   func saveUser(user: UserModel) {
     let encoder = JSONEncoder()
     if let encodedUser = try? encoder.encode(user) {

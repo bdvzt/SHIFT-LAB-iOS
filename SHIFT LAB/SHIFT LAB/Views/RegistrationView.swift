@@ -7,118 +7,6 @@
 
 import SwiftUI
 
-//struct RegistrationView: View {
-//    @State private var name: String = ""
-//    @State private var surname: String = ""
-//    @State private var dateOfBirth: String = ""
-//    @State private var password: String = ""
-//    @State private var repeatPassword: String = ""
-//    
-//    @State private var birthDate = Date.now
-//    
-//    @State var alertText: String = "Your name must have at least 2 symbols"
-//    @State var isAlert: Bool = false
-//    
-//    let bg = Color(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0))
-//
-//    var body: some View {
-//        VStack {
-//            Text("Registration")
-//                .padding(50)
-//            
-//            TextField("Name", text: $name)
-//                .padding(.horizontal)
-//                .frame(height: 50)
-//                .background(bg)
-//                .cornerRadius(15)
-//            
-//            TextField("Surname", text: $surname)
-//                .padding(.horizontal)
-//                .frame(height: 50)
-//                .background(bg)
-//                .cornerRadius(15)
-//            
-//            DatePicker(selection: $birthDate, in: ...Date.now, displayedComponents: .date) {
-//                           Text("Select a birth date")
-//                       }
-//            
-//            TextField("Password", text: $password)
-//                .padding(.horizontal)
-//                .frame(height: 50)
-//                .background(bg)
-//                .cornerRadius(15)
-//            
-//            TextField("Repeat password", text: $repeatPassword)
-//                .padding(.horizontal)
-//                .frame(height: 50)
-//                .background(bg)
-//                .cornerRadius(15)
-//            
-//            Button(action: addTask){
-//                Text("Sign up")
-//                    .foregroundColor(.white)
-//                    .font(.headline)
-//                    .frame(height: 70)
-//                    .frame(maxWidth: .infinity)
-//                    .background(Color.pink)
-//                    .cornerRadius(15)
-//            }
-//        }
-//        .padding()
-//    }
-//    
-//    func addTask() {
-//            
-//        }
-//    
-//    func checkName()->Bool{
-//        if name.count < 2{
-//            isAlert.toggle()
-//            return false
-//        }
-//        return true
-//    }
-//    
-//    func checkSurname()-> Bool{
-//        if surname.count < 2 {
-//            isAlert.toggle()
-//            return false
-//        }
-//        return true
-//    }
-//    
-//    func checkPasswords()-> Bool{
-//        if password == repeatPassword {
-//            isAlert.toggle()
-//            return false
-//        }
-//        return true
-//    }
-//    
-//    func getAlert()->Alert{
-//        return Alert(title: Text(alertText))
-//    }
-//    
-//    func signUp() {
-//            if textFieldText.isEmpty {
-//                isAlert = true
-//                return
-//            }
-//            
-//            let newTask = TaskModelAdd(description: textFieldText)
-//            listViewModel.addTask(task: newTask) { result in
-//                switch result {
-//                case .success:
-//                    presentationMode.wrappedValue.dismiss()
-//                case .failure(_):
-//                    print("Error adding task")
-//                }
-//            }
-//        presentationMode.wrappedValue.dismiss()
-//        }
-//}
-
-
 struct RegistrationView: View {
     @State private var name: String = ""
     @State private var surname: String = ""
@@ -190,10 +78,13 @@ struct RegistrationView: View {
     }
 
                 
-
+    
     
 
     func isValid() -> (Bool, String) {
+        if (name.isEmpty || surname.isEmpty || password.isEmpty || repeatPassword.isEmpty){
+            return(false, "Empty fields")
+        }
         if name.count <= 2 {
             return (false, "Your NAME must have at least 2 symbols!")
         }
@@ -229,7 +120,7 @@ struct RegistrationView: View {
             let (isValid, errorMessage) = isValid()
             
             if isValid {
-                let currUser = UserModel(name: name, surname: surname, dateOfBirth: dateOfBirth, password: password)
+                userViewModel.createUser(name: name, surname: surname, dateOfBirth: dateOfBirth, password: password)
 
                 isLoggedIn = true
             } else {
