@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct MainView: View {
+    @StateObject private var itemViewModel = ItemViewModel()
     @StateObject var userViewModel = UserViewModel()
     @State private var showModal = false
     
+    
     var body: some View {
-        VStack {
+        NavigationView {
             Button(action: {
                 showModal.toggle()
             }) {
-                Text("Приветствие")
+                Text("Push on me")
                     .foregroundColor(.white)
                     .padding()
                     .background(Color.blue)
@@ -25,30 +27,34 @@ struct MainView: View {
         }
         .padding()
         .sheet(isPresented: $showModal) {
-            WelcomeModal(userViewModel: userViewModel)
+            GreetingsView(userViewModel: userViewModel)
         }
         .onAppear {
         }
-    }
-}
-
-struct WelcomeModal: View {
-    @ObservedObject var userViewModel: UserViewModel
-    var name: String? {
-        userViewModel.showName()
-    }
-
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("Приветствие")
-                .font(.title)
-                .bold()
-            
-            Text("Добро пожаловать, \(String(describing: name))!")
-                .font(.headline)
+        
+        List(itemViewModel.items) { item in
+            NavigationLink(destination: ItemView(item: item)) {
+                VStack(alignment: .leading) {
+                    AsyncImage(url: URL(string: item.image)) { image in
+                        image.resizable().scaledToFit()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(height: 100)
+                    
+                    Text(item.title)
+                        .font(.headline)
+                    Text(String(format: "$%.2f", item.price))
+                        .font(.subheadline)
+                    Text(item.category)
+                        .font(.subheadline)
+                }
+            }
         }
-        .padding()
+        .navigationTitle("Products")
+        .onAppear {
+            itemViewModel.fetchItems()
+        }
     }
 }
 
