@@ -15,45 +15,48 @@ struct MainView: View {
     
     var body: some View {
         NavigationView {
-            Button(action: {
-                showModal.toggle()
-            }) {
-                Text("Push on me")
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.blue)
-                    .cornerRadius(10)
-            }
-        }
-        .padding()
-        .sheet(isPresented: $showModal) {
-            GreetingsView(userViewModel: userViewModel)
-        }
-        .onAppear {
-        }
-        
-        List(itemViewModel.items) { item in
-            NavigationLink(destination: ItemView(item: item)) {
-                VStack(alignment: .leading) {
-                    AsyncImage(url: URL(string: item.image)) { image in
-                        image.resizable().scaledToFit()
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .frame(height: 100)
-                    
-                    Text(item.title)
+            VStack {
+                Button(action: {
+                    showModal.toggle()
+                }) {
+                    Text("Push on me")
+                        .foregroundColor(.white)
                         .font(.headline)
-                    Text(String(format: "$%.2f", item.price))
-                        .font(.subheadline)
-                    Text(item.category)
-                        .font(.subheadline)
+                        .frame(height: 70)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.pink)
+                        .cornerRadius(15)
                 }
+                .padding(.bottom, 30)
+                
+                List(itemViewModel.items) { item in
+                    NavigationLink(destination: ItemView(item: item)) {
+                        VStack(alignment: .leading) {
+                            AsyncImage(url: URL(string: item.image)) { image in
+                                image.resizable().scaledToFit()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(height: 200)
+                            
+                            Text(item.title)
+                                .font(.headline)
+                            Text(String(format: "$%.2f", item.price))
+                                .font(.subheadline)
+                            Text(item.category)
+                                .font(.subheadline)
+                        }
+                    }
+                }
+                .navigationTitle("Items")
             }
-        }
-        .navigationTitle("Products")
-        .onAppear {
-            itemViewModel.fetchItems()
+            .padding()
+            .sheet(isPresented: $showModal) {
+                GreetingsView(userViewModel: userViewModel)
+            }
+            .onAppear {
+                itemViewModel.fetchItems()
+            }
         }
     }
 }

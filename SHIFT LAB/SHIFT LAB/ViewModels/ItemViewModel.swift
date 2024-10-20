@@ -13,15 +13,20 @@ class ItemViewModel: ObservableObject {
   @Published var items: [ItemModel] = []
 
   func fetchItems() {
-    guard let url = URL(string: "https://fakestoreapi.com/products") else { return }
+    guard let url = URL(string: "https://fakestoreapi.com/products") 
+      else {
+        return
+    }
 
     URLSession.shared.dataTask(with: url) { data, response, error in
       if let data = data {
         do {
-          let decodedProducts = try JSONDecoder().decode([ItemModel].self, from: data)
+          let itemsToFetch = try JSONDecoder().decode([ItemModel].self, from: data)
+            
           DispatchQueue.main.async {
-            self.items = decodedProducts
+            self.items = itemsToFetch
           }
+            
         } catch {
           print("error fetching items") 
         }

@@ -8,7 +8,7 @@
 import Foundation
 
 class UserViewModel: ObservableObject {
-  @Published var currentUser: UserModel?
+  @Published var currUser: UserModel?
 
   init() {
     loadUser()
@@ -16,25 +16,25 @@ class UserViewModel: ObservableObject {
 
   func createUser(name: String, surname: String, dateOfBirth: Date, password: String) {
     let newUser = UserModel(name: name, surname: surname, dateOfBirth: dateOfBirth, password: password)
-    currentUser = newUser
+    currUser = newUser
     saveUser(user: newUser)
   }
     
-    func showName() -> String? {
-        return currentUser?.name
-    }
+  func showName() -> String? {
+    return currUser?.name
+  }
     
   func saveUser(user: UserModel) {
     let encoder = JSONEncoder()
     if let encodedUser = try? encoder.encode(user) {
-      UserDefaults.standard.set(encodedUser, forKey: "currentUser")
+      UserDefaults.standard.set(encodedUser, forKey: "currUser")
     }
   }
 
   func loadUser() {
-    if let encodedUser = UserDefaults.standard.data(forKey: "currentUser"),
+    if let encodedUser = UserDefaults.standard.data(forKey: "currUser"),
       let decodedUser = try? JSONDecoder().decode(UserModel.self, from: encodedUser) {
-      currentUser = decodedUser
+      currUser = decodedUser
     }
   }
 }
