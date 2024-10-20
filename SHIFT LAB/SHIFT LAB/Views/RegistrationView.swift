@@ -37,7 +37,6 @@ struct RegistrationView: View {
             
             TextField("Name", text: $name)
                 .padding(.horizontal)
-                .foregroundColor(isNameEmpty ? .primary : .red)
                 .frame(height: 50)
                 .background(bg)
                 .cornerRadius(15)
