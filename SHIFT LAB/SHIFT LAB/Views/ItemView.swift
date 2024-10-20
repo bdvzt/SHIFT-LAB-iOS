@@ -37,7 +37,7 @@ struct ItemView: View {
                     .padding()
                 
                     HStack {
-                        Text(String(format: "%.1f", item.rating.rate)) 
+                        Text(String(format: "%.1f", item.rating.rate))
                             .font(.headline)
                         Spacer()
                         Text("(\(item.rating.count) reviews)")

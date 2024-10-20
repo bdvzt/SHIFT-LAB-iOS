@@ -21,6 +21,12 @@ struct RegistrationView: View {
     
     @State private var isLoggedIn = false
 
+    @State private var isNameEmpty: Bool = false
+    @State private var isSurnameEmpty: Bool = false
+    @State private var isPasswordEmpty: Bool = false
+    @State private var isRepeatPasswordEmpty: Bool = false
+
+
 
     let bg = Color(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0))
 
@@ -31,6 +37,7 @@ struct RegistrationView: View {
             
             TextField("Name", text: $name)
                 .padding(.horizontal)
+                .foregroundColor(isNameEmpty ? .primary : .red)
                 .frame(height: 50)
                 .background(bg)
                 .cornerRadius(15)
@@ -79,11 +86,18 @@ struct RegistrationView: View {
 
                 
     
-    
+    func makeRed() {
+            isNameEmpty = name.isEmpty
+            isSurnameEmpty = surname.isEmpty
+            isPasswordEmpty = password.isEmpty
+            isRepeatPasswordEmpty = repeatPassword.isEmpty
+    }
+
 
     func isValid() -> (Bool, String) {
         if (name.isEmpty || surname.isEmpty || password.isEmpty || repeatPassword.isEmpty){
-            return(false, "Empty fields")
+            makeRed()
+            return(false, "There are some empty fields")
         }
         if name.count <= 2 {
             return (false, "Your NAME must have at least 2 symbols!")

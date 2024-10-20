@@ -9,11 +9,18 @@ import SwiftUI
 
 @main
 struct SHIFT_LABApp: App {
+    @StateObject var userViewModel = UserViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            NavigationView{
-                RegistrationView()
+            NavigationView {
+                if userViewModel.currUser != nil {
+                    MainView()
+                } else {
+                    RegistrationView()
+                }
             }
         }
     }
+
 }
