@@ -22,5 +22,4 @@ struct SHIFT_LABApp: App {
             }
         }
     }
-
 }

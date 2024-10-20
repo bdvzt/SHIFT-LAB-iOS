@@ -53,13 +53,13 @@ struct RegistrationView: View {
                 .background(bg)
                 .cornerRadius(15)
             
-            TextField("Password", text: $password)
+            SecureField("Password", text: $password)
                 .padding(.horizontal)
                 .frame(height: 50)
                 .background(bg)
                 .cornerRadius(15)
             
-            TextField("Repeat password", text: $repeatPassword)
+            SecureField("Repeat password", text: $repeatPassword)
                 .padding(.horizontal)
                 .frame(height: 50)
                 .background(bg)
